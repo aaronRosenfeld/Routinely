@@ -14,14 +14,14 @@ class RoutinesListViewController: UIViewController {
     
     // MARK: - UI
        
-       private lazy var tableView: UITableView = {
-           let tableView = UITableView(frame: .zero)
-           tableView.delegate = self
-           tableView.dataSource = self
-//           tableView.separatorColor = .clear
-           tableView.register(RoutinesListCell.self, forCellReuseIdentifier: "cell")
-           return tableView
-       }()
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero)
+        tableView.delegate = self
+        tableView.dataSource = self
+//          tableView.separatorColor = .clear
+        tableView.register(RoutinesListCell.self, forCellReuseIdentifier: "cell")
+        return tableView
+    }()
     
     // MARK: - Lifecycle
 
