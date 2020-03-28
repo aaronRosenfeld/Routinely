@@ -18,9 +18,28 @@ class RoutinesListViewController: UIViewController {
         let tableView = UITableView(frame: .zero)
         tableView.delegate = self
         tableView.dataSource = self
-//          tableView.separatorColor = .clear
+        tableView.separatorColor = .clear
+        tableView.backgroundColor = .lightGray
         tableView.register(RoutinesListCell.self, forCellReuseIdentifier: "cell")
         return tableView
+    }()
+    
+    private lazy var addRoutineButton: UIButton = {
+       let button = UIButton()
+        button.setTitle("+", for: .normal)
+        button.titleLabel?.font = button.titleLabel?.font.withSize(35)
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.tintColor = .white
+        button.addTarget(self, action: #selector(addRoutineButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var addRoutineButtonWrapper: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemBlue
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 37.5
+        return view
     }()
     
     // MARK: - Lifecycle
@@ -39,21 +58,38 @@ class RoutinesListViewController: UIViewController {
         setupView()
     }
     
+    // MARK: - Actions
+    
+    @objc func addRoutineButtonTapped() {
+        print("TAPPED")
+    }
+    
 }
 
 extension RoutinesListViewController {
     
     func setupView() {
         title = "Routines"
-        view.backgroundColor = .white
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log Out", style: .plain, target: self, action: #selector(logoutTapped))
         
         view.addSubview(tableView)
+        addRoutineButtonWrapper.addSubview(addRoutineButton)
+        view.addSubview(addRoutineButtonWrapper)
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.leading.trailing.equalTo(view)
         }
+        
+        addRoutineButton.snp.makeConstraints{ make in
+            make.top.bottom.leading.trailing.equalToSuperview()
+        }
+        
+        addRoutineButtonWrapper.snp.makeConstraints{ make in
+            make.right.equalTo(tableView.snp.right).offset(-40)
+            make.bottom.equalTo(tableView.snp.bottom).offset(-75)
+            make.height.width.equalTo(75)
+        }
+                
     }
     
 }

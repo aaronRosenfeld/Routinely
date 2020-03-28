@@ -28,6 +28,8 @@ class RoutinesListCell: UITableViewCell {
     
     var descriptionLabelText = "This is a routine for you to do sometimes, I guess."
     
+    var isInProgress: Bool = false
+    
     // MARK: - UI
     
     private lazy var nameLabel: UILabel = {
@@ -52,7 +54,7 @@ class RoutinesListCell: UITableViewCell {
         button.titleLabel?.font = button.titleLabel?.font.withSize(20)
         button.backgroundColor = .systemGreen
         button.titleLabel?.tintColor = .black
-        button.layer.cornerRadius = 8
+        button.layer.cornerRadius = 20
         button.contentEdgeInsets.top = 7
         button.contentEdgeInsets.bottom = 7
         button.contentEdgeInsets.left = 15
@@ -61,28 +63,43 @@ class RoutinesListCell: UITableViewCell {
         return button
     }()
     
+    private lazy var runningRoutineButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("00:00", for: .normal)
+        button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
+        button.titleLabel?.font = button.titleLabel?.font.withSize(20)
+        button.backgroundColor = .systemRed
+        button.titleLabel?.tintColor = .black
+        button.layer.cornerRadius = 20
+        button.contentEdgeInsets.top = 7
+        button.contentEdgeInsets.bottom = 7
+        button.contentEdgeInsets.left = 15
+        button.contentEdgeInsets.right = 15
+        button.addTarget(self, action: #selector(runningTapped), for: .touchUpInside)
+        return button
+    }()
+    
      lazy var borderView: UIView = {
         let view = UIView()
-        view.layer.cornerRadius = 5
-        view.layer.borderWidth = 1.0
-        view.layer.borderColor = UIColor.lightGray.cgColor
+        view.layer.cornerRadius = 15
         view.backgroundColor = .white
-        view.clipsToBounds = true
+        view.clipsToBounds = false
         return view
     }()
     
     // MARK: - Actions
 
     @objc func startTapped(_ sender: UIButton) {
-        UIButton.animate(withDuration: 0.1,
-                         animations: { sender.transform = CGAffineTransform(scaleX: 0.975, y: 0.96) },
-                         completion: { finish in
-                            UIButton.animate(withDuration: 0.1, animations: {
-                                    sender.transform = CGAffineTransform.identity
-                            })
-                          })
-        
+        isInProgress = !isInProgress
+        startRoutineButton.isHidden = true
+        runningRoutineButton.isHidden = false
     }
+    
+    @objc func runningTapped(_ sender: UIButton) {
+           isInProgress = !isInProgress
+           startRoutineButton.isHidden = false
+           runningRoutineButton.isHidden = true
+       }
     
     // MARK: - Init
     
@@ -100,9 +117,11 @@ class RoutinesListCell: UITableViewCell {
 extension RoutinesListCell {
     
     func setupView() {
+        backgroundColor = .clear
         borderView.addSubview(nameLabel)
         borderView.addSubview(descriptionLabel)
         borderView.addSubview(startRoutineButton)
+        borderView.addSubview(runningRoutineButton)
         addSubview(borderView)
         
         nameLabel.snp.makeConstraints { make in
@@ -122,12 +141,20 @@ extension RoutinesListCell {
             make.trailing.equalToSuperview().offset(-10)
         }
         
-        borderView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(5)
-            make.bottom.equalToSuperview().offset(-5)
-            make.leading.equalToSuperview().offset(10)
+        runningRoutineButton.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().offset(-10)
             make.trailing.equalToSuperview().offset(-10)
         }
+        
+        borderView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-10)
+            make.leading.equalToSuperview().offset(13)
+            make.trailing.equalToSuperview().offset(-13)
+        }
+        
+        startRoutineButton.isHidden = isInProgress ? true : false
+        runningRoutineButton.isHidden = isInProgress ? false : true
         
     }
     
