@@ -118,6 +118,8 @@ extension RoutinesListCell {
     
     func setupView() {
         backgroundColor = .clear
+        selectionStyle = .none
+        
         borderView.addSubview(nameLabel)
         borderView.addSubview(descriptionLabel)
         borderView.addSubview(startRoutineButton)

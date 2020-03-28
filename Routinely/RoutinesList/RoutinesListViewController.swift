@@ -70,6 +70,8 @@ extension RoutinesListViewController {
     
     func setupView() {
         title = "Routines"
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.isTranslucent = false
         
         view.addSubview(tableView)
         addRoutineButtonWrapper.addSubview(addRoutineButton)
