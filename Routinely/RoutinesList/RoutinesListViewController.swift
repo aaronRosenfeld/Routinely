@@ -12,6 +12,10 @@ import SnapKit
 
 class RoutinesListViewController: UIViewController {
     
+    var routines: [Routine]?
+    
+    var counter = 0
+    
     // MARK: - UI
        
     private lazy var tableView: UITableView = {
@@ -46,22 +50,16 @@ class RoutinesListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        let request = RepositoryRequest()
-//        request.getRepositories { [weak self] result in
-//            switch result {
-//            case .failure(let error):
-//                print(error)
-//            case .success(let repositories):
-//                self?.repositories = repositories
-//            }
-//        }
+        routines = []
         setupView()
     }
     
     // MARK: - Actions
     
     @objc func addRoutineButtonTapped() {
-        print("TAPPED")
+        routines?.append(Routine(title: "New Routine \(counter)", description: "This is a new routine", isInProgress: false))
+        counter = counter + 1
+        tableView.reloadData()
     }
     
 }
@@ -99,11 +97,12 @@ extension RoutinesListViewController {
 extension RoutinesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return routines?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RoutinesListCell
+        cell.viewModel = RoutinesListCellViewModel(routine: routines?[indexPath.row])
         return cell
     }
     

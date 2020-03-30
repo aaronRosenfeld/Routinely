@@ -11,37 +11,29 @@ import UIKit
 import SnapKit
 
 class RoutinesListCell: UITableViewCell {
-    
-//    var nameLabelText: String? {
-//        didSet {
-//            render()
-//        }
-//    }
-//
-//    var descriptionLabelText: String? {
-//           didSet {
-//               render()
-//           }
-//       }
-    
-    var nameLabelText = "Routine 1"
-    
-    var descriptionLabelText = "This is a routine for you to do sometimes, I guess."
-    
+        
+    var viewModel: RoutinesListCellViewModel? {
+        didSet {
+            render()
+        }
+    }
+            
     var isInProgress: Bool = false
+    
+    var startedAt: String?
+    
+    var timer = Timer()
     
     // MARK: - UI
     
-    private lazy var nameLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title1)
-        label.text = nameLabelText
         return label
     }()
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = descriptionLabelText
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
         return label
@@ -53,7 +45,6 @@ class RoutinesListCell: UITableViewCell {
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
         button.titleLabel?.font = button.titleLabel?.font.withSize(20)
         button.backgroundColor = .systemGreen
-        button.titleLabel?.tintColor = .black
         button.layer.cornerRadius = 20
         button.contentEdgeInsets.top = 7
         button.contentEdgeInsets.bottom = 7
@@ -69,7 +60,6 @@ class RoutinesListCell: UITableViewCell {
         button.titleLabel?.font = UIFont.preferredFont(forTextStyle: .headline)
         button.titleLabel?.font = button.titleLabel?.font.withSize(20)
         button.backgroundColor = .systemRed
-        button.titleLabel?.tintColor = .black
         button.layer.cornerRadius = 20
         button.contentEdgeInsets.top = 7
         button.contentEdgeInsets.bottom = 7
@@ -93,13 +83,17 @@ class RoutinesListCell: UITableViewCell {
         isInProgress = !isInProgress
         startRoutineButton.isHidden = true
         runningRoutineButton.isHidden = false
+        startedAt = String(Int(Date().timeIntervalSince1970))
+        tick()
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.tick) , userInfo: nil, repeats: true)
     }
     
     @objc func runningTapped(_ sender: UIButton) {
-           isInProgress = !isInProgress
-           startRoutineButton.isHidden = false
-           runningRoutineButton.isHidden = true
-       }
+        isInProgress = !isInProgress
+        startRoutineButton.isHidden = false
+        runningRoutineButton.isHidden = true
+        timer.invalidate()
+    }
     
     // MARK: - Init
     
@@ -120,20 +114,20 @@ extension RoutinesListCell {
         backgroundColor = .clear
         selectionStyle = .none
         
-        borderView.addSubview(nameLabel)
+        borderView.addSubview(titleLabel)
         borderView.addSubview(descriptionLabel)
         borderView.addSubview(startRoutineButton)
         borderView.addSubview(runningRoutineButton)
         addSubview(borderView)
         
-        nameLabel.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(10)
             make.leading.equalToSuperview().offset(10)
         }
         
         descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(nameLabel.snp.bottom).offset(5)
-            make.leading.equalTo(nameLabel)
+            make.top.equalTo(titleLabel.snp.bottom).offset(5)
+            make.leading.equalTo(titleLabel)
             make.trailing.equalToSuperview().offset(-10)
             make.bottom.equalTo(startRoutineButton.snp.top).offset(-10)
         }
@@ -146,6 +140,7 @@ extension RoutinesListCell {
         runningRoutineButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().offset(-10)
             make.trailing.equalToSuperview().offset(-10)
+            make.width.greaterThanOrEqualTo(92)
         }
         
         borderView.snp.makeConstraints { make in
@@ -155,14 +150,37 @@ extension RoutinesListCell {
             make.trailing.equalToSuperview().offset(-13)
         }
         
-        startRoutineButton.isHidden = isInProgress ? true : false
-        runningRoutineButton.isHidden = isInProgress ? false : true
-        
     }
     
     func render() {
-        nameLabel.text = nameLabelText
-        descriptionLabel.text = descriptionLabelText
+        titleLabel.text = viewModel?.title
+        descriptionLabel.text = viewModel?.description
+        isInProgress = viewModel?.isInProgress ?? false
+        startedAt = viewModel?.startedAt
+        startRoutineButton.isHidden = isInProgress ? true : false
+        runningRoutineButton.isHidden = isInProgress ? false : true
+    }
+    
+    @objc func tick() {
+        guard let startedAt = startedAt else {
+            return
+        }
+        let newTime = Int(Date().timeIntervalSince1970)
+        let time = newTime - Int(startedAt)!
+        runningRoutineButton.setTitle(formatTime(interval: time), for: .normal)
+    }
+    
+    func formatTime(interval: Int) -> String {
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.hour, .minute, .second]
+        formatter.unitsStyle = .positional
+        formatter.zeroFormattingBehavior = .pad
+
+        var formattedString = formatter.string(from: TimeInterval(interval))!
+        if formattedString.hasPrefix("00:") {
+            formattedString = String(formattedString.dropFirst(3))
+        }
+        return formattedString
     }
     
 }
