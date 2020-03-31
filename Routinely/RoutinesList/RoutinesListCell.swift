@@ -106,6 +106,10 @@ class RoutinesListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        timer.invalidate()
+    }
+    
 }
 
 extension RoutinesListCell {
