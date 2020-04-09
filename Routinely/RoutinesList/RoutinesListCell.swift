@@ -10,13 +10,23 @@ import Foundation
 import UIKit
 import SnapKit
 
+protocol RoutinesListCellDelegate: class {
+    
+    func actionTapped(viewModel: RoutinesListCellViewModel?)
+        
+}
+
 class RoutinesListCell: UITableViewCell {
+    
+    weak var delgate: RoutinesListCellDelegate?
         
     var viewModel: RoutinesListCellViewModel? {
         didSet {
             render()
         }
     }
+    
+    var id: UUID?
             
     var isInProgress: Bool = false
     
@@ -80,25 +90,30 @@ class RoutinesListCell: UITableViewCell {
     // MARK: - Actions
 
     @objc func startTapped(_ sender: UIButton) {
-        isInProgress = !isInProgress
+        viewModel?.isInProgress = !isInProgress
         startRoutineButton.isHidden = true
         runningRoutineButton.isHidden = false
-        startedAt = String(Int(Date().timeIntervalSince1970))
+        viewModel?.startedAt = String(Int(Date().timeIntervalSince1970))
         tick()
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.tick) , userInfo: nil, repeats: true)
+        delgate?.actionTapped(viewModel: viewModel)
     }
     
     @objc func runningTapped(_ sender: UIButton) {
-        isInProgress = !isInProgress
+        viewModel?.isInProgress = !isInProgress
         startRoutineButton.isHidden = false
         runningRoutineButton.isHidden = true
         timer.invalidate()
+        delgate?.actionTapped(viewModel: viewModel)
     }
     
     // MARK: - Init
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        if id == nil {
+            id = UUID()
+        }
         setupView()
     }
     
@@ -160,13 +175,16 @@ extension RoutinesListCell {
         titleLabel.text = viewModel?.title
         descriptionLabel.text = viewModel?.description
         isInProgress = viewModel?.isInProgress ?? false
+        if viewModel?.isInProgress == true {
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.tick) , userInfo: nil, repeats: true)
+        }
         startedAt = viewModel?.startedAt
         startRoutineButton.isHidden = isInProgress ? true : false
         runningRoutineButton.isHidden = isInProgress ? false : true
     }
     
     @objc func tick() {
-        guard let startedAt = startedAt else {
+        guard let startedAt = viewModel?.startedAt else {
             return
         }
         let newTime = Int(Date().timeIntervalSince1970)

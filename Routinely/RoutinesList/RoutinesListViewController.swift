@@ -11,8 +11,8 @@ import UIKit
 import SnapKit
 
 class RoutinesListViewController: UIViewController {
-    
-    var routines: [Routine]?
+        
+    var routinesViewModels: [RoutinesListCellViewModel]?
     
     var counter = 0
     
@@ -50,14 +50,15 @@ class RoutinesListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        routines = []
+        routinesViewModels = []
         setupView()
     }
     
     // MARK: - Actions
     
     @objc func addRoutineButtonTapped() {
-        routines?.append(Routine(title: "New Routine \(counter)", description: "This is a new routine", isInProgress: false))
+        let routine = Routine(title: "New Routine \(counter)", description: "This is a new routine", isInProgress: false)
+        routinesViewModels?.append(RoutinesListCellViewModel(routine: routine))
         counter = counter + 1
         tableView.reloadData()
     }
@@ -97,12 +98,13 @@ extension RoutinesListViewController {
 extension RoutinesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return routines?.count ?? 0
+        return routinesViewModels?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RoutinesListCell
-        cell.viewModel = RoutinesListCellViewModel(routine: routines?[indexPath.row])
+        cell.viewModel = routinesViewModels?[indexPath.row]
+        cell.delgate = self
         return cell
     }
     
@@ -112,6 +114,20 @@ extension RoutinesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
+    }
+    
+}
+
+extension RoutinesListViewController: RoutinesListCellDelegate {
+    
+    func actionTapped(viewModel: RoutinesListCellViewModel?) {
+
+        guard  let viewModel = viewModel else {
+            return
+        }
+        if let index = routinesViewModels?.firstIndex(where: { $0.title == viewModel.title }) {
+            routinesViewModels?[index] = viewModel
+        }
     }
     
 }
