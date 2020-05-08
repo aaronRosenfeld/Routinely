@@ -28,24 +28,6 @@ class RoutinesListViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var addRoutineButton: UIButton = {
-       let button = UIButton()
-        button.setTitle("+", for: .normal)
-        button.titleLabel?.font = button.titleLabel?.font.withSize(35)
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.tintColor = .white
-        button.addTarget(self, action: #selector(addRoutineButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
-    private lazy var addRoutineButtonWrapper: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemBlue
-        view.layer.masksToBounds = true
-        view.layer.cornerRadius = 37.5
-        return view
-    }()
-    
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -69,26 +51,15 @@ extension RoutinesListViewController {
     
     func setupView() {
         title = "Routines"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addRoutineButtonTapped))
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.isTranslucent = false
         
         view.addSubview(tableView)
-        addRoutineButtonWrapper.addSubview(addRoutineButton)
-        view.addSubview(addRoutineButtonWrapper)
         
         tableView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.bottom.leading.trailing.equalTo(view)
-        }
-        
-        addRoutineButton.snp.makeConstraints{ make in
-            make.top.bottom.leading.trailing.equalToSuperview()
-        }
-        
-        addRoutineButtonWrapper.snp.makeConstraints{ make in
-            make.right.equalTo(tableView.snp.right).offset(-40)
-            make.bottom.equalTo(tableView.snp.bottom).offset(-75)
-            make.height.width.equalTo(75)
         }
                 
     }
