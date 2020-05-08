@@ -21,6 +21,7 @@
 		811BFEF32422ED43001DFF97 /* RoutinesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811BFEF22422ED43001DFF97 /* RoutinesListCell.swift */; };
 		8144AEE2242FDFCC00356C49 /* Routine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8144AEE1242FDFCC00356C49 /* Routine.swift */; };
 		8144AEE424306A5100356C49 /* RoutinesListCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8144AEE324306A5100356C49 /* RoutinesListCellViewModel.swift */; };
+		9350D1B22465389000BDF661 /* NewRoutineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9350D1B12465389000BDF661 /* NewRoutineViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		811BFEF22422ED43001DFF97 /* RoutinesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutinesListCell.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		8144AEE1242FDFCC00356C49 /* Routine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routine.swift; sourceTree = "<group>"; };
 		8144AEE324306A5100356C49 /* RoutinesListCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoutinesListCellViewModel.swift; sourceTree = "<group>"; };
+		9350D1B12465389000BDF661 /* NewRoutineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRoutineViewController.swift; sourceTree = "<group>"; };
 		A0F9923083B8DAC881ADA44F /* Pods-RoutinelyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RoutinelyTests.release.xcconfig"; path = "Target Support Files/Pods-RoutinelyTests/Pods-RoutinelyTests.release.xcconfig"; sourceTree = "<group>"; };
 		C1127994900F2050638CF624 /* Pods-Routinely.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Routinely.release.xcconfig"; path = "Target Support Files/Pods-Routinely/Pods-Routinely.release.xcconfig"; sourceTree = "<group>"; };
 		C58E42A9B5A041CCC8A4CD15 /* Pods-Routinely-RoutinelyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Routinely-RoutinelyUITests.debug.xcconfig"; path = "Target Support Files/Pods-Routinely-RoutinelyUITests/Pods-Routinely-RoutinelyUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				811BFEEF2422E10E001DFF97 /* RoutinesList */,
+				9350D1B02465385F00BDF661 /* NewRoutine */,
 				811BFEBF2422E07D001DFF97 /* AppDelegate.swift */,
 				811BFEC12422E07D001DFF97 /* SceneDelegate.swift */,
 				811BFEC32422E07D001DFF97 /* ViewController.swift */,
@@ -160,6 +163,14 @@
 				8144AEE324306A5100356C49 /* RoutinesListCellViewModel.swift */,
 			);
 			path = RoutinesList;
+			sourceTree = "<group>";
+		};
+		9350D1B02465385F00BDF661 /* NewRoutine */ = {
+			isa = PBXGroup;
+			children = (
+				9350D1B12465389000BDF661 /* NewRoutineViewController.swift */,
+			);
+			path = NewRoutine;
 			sourceTree = "<group>";
 		};
 		998403D106B949DCEBFB0C21 /* Frameworks */ = {
@@ -423,6 +434,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9350D1B22465389000BDF661 /* NewRoutineViewController.swift in Sources */,
 				8144AEE424306A5100356C49 /* RoutinesListCellViewModel.swift in Sources */,
 				811BFEF32422ED43001DFF97 /* RoutinesListCell.swift in Sources */,
 				811BFEC42422E07D001DFF97 /* ViewController.swift in Sources */,

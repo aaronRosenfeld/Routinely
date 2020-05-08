@@ -18,7 +18,7 @@ protocol RoutinesListCellDelegate: class {
 
 class RoutinesListCell: UITableViewCell {
     
-    weak var delgate: RoutinesListCellDelegate?
+    weak var delegate: RoutinesListCellDelegate?
         
     var viewModel: RoutinesListCellViewModel? {
         didSet {
@@ -97,7 +97,7 @@ class RoutinesListCell: UITableViewCell {
         viewModel?.startedAt = String(Int(Date().timeIntervalSince1970))
         tick()
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector:#selector(self.tick) , userInfo: nil, repeats: true)
-        delgate?.actionTapped(viewModel: viewModel)
+        delegate?.actionTapped(viewModel: viewModel)
     }
     
     @objc func runningTapped(_ sender: UIButton) {
@@ -105,7 +105,7 @@ class RoutinesListCell: UITableViewCell {
         startRoutineButton.isHidden = false
         runningRoutineButton.isHidden = true
         timer.invalidate()
-        delgate?.actionTapped(viewModel: viewModel)
+        delegate?.actionTapped(viewModel: viewModel)
     }
     
     // MARK: - Init

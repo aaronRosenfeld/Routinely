@@ -39,10 +39,9 @@ class RoutinesListViewController: UIViewController {
     // MARK: - Actions
     
     @objc func addRoutineButtonTapped() {
-        let routine = Routine(title: "New Routine \(counter)", description: "This is a new routine", isInProgress: false)
-        routinesViewModels?.append(RoutinesListCellViewModel(routine: routine))
-        counter = counter + 1
-        tableView.reloadData()
+        let vc = NewRoutineViewController()
+        vc.delegate = self
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }
@@ -75,7 +74,7 @@ extension RoutinesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! RoutinesListCell
         cell.viewModel = routinesViewModels?[indexPath.row]
-        cell.delgate = self
+        cell.delegate = self
         return cell
     }
     
@@ -99,6 +98,16 @@ extension RoutinesListViewController: RoutinesListCellDelegate {
         if let index = routinesViewModels?.firstIndex(where: { $0.id == viewModel.id }) {
             routinesViewModels?[index] = viewModel
         }
+    }
+    
+}
+
+extension RoutinesListViewController: NewRoutineViewControllerDelegate {
+    
+    func addRoutine(title: String, description: String) {
+        let routine = Routine(title: title, description: description, isInProgress: false)
+        routinesViewModels?.append(RoutinesListCellViewModel(routine: routine))
+        tableView.reloadData()
     }
     
 }
