@@ -9,12 +9,14 @@
 import Foundation
 
 class Routine {
+    var id: UUID?
     var title: String?
     var description: String?
     var isInProgress: Bool = false
     var startedAt: String?
     
     init(title: String?, description: String?, isInProgress: Bool = false, startedAt: String? = nil) {
+        self.id = UUID()
         self.title = title
         self.description = description
         self.isInProgress = isInProgress

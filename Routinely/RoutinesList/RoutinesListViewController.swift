@@ -125,7 +125,7 @@ extension RoutinesListViewController: RoutinesListCellDelegate {
         guard  let viewModel = viewModel else {
             return
         }
-        if let index = routinesViewModels?.firstIndex(where: { $0.title == viewModel.title }) {
+        if let index = routinesViewModels?.firstIndex(where: { $0.id == viewModel.id }) {
             routinesViewModels?[index] = viewModel
         }
     }

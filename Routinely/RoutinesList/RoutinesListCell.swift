@@ -23,6 +23,7 @@ class RoutinesListCell: UITableViewCell {
     var viewModel: RoutinesListCellViewModel? {
         didSet {
             render()
+            id = viewModel?.id
         }
     }
     
@@ -111,9 +112,6 @@ class RoutinesListCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
-        if id == nil {
-            id = UUID()
-        }
         setupView()
     }
     

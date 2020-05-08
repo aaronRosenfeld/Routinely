@@ -10,6 +10,8 @@ import Foundation
 
 class RoutinesListCellViewModel {
     
+    var id: UUID?
+    
     var title: String?
     
     var description: String?
@@ -19,6 +21,7 @@ class RoutinesListCellViewModel {
     var isInProgress: Bool
     
     init(routine: Routine?) {
+        id = routine?.id
         title = routine?.title
         description = routine?.description
         startedAt = routine?.startedAt
