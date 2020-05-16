@@ -84,7 +84,7 @@ extension RoutinesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = RoutineDetailViewController()
-        vc.routine = routinesViewModels?[indexPath.row]
+        vc.routine = Routine(routine: routinesViewModels?[indexPath.row])
         navigationController?.pushViewController(vc, animated: true)
     }
     

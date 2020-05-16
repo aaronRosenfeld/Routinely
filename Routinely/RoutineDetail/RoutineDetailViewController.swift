@@ -11,7 +11,7 @@ import UIKit
 
 class RoutineDetailViewController: UIViewController {
     
-    var routine: RoutinesListCellViewModel?
+    var routine: Routine?
     
     
     //MARK: - Lifecycle

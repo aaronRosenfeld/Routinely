@@ -22,4 +22,12 @@ class Routine {
         self.isInProgress = isInProgress
         self.startedAt = startedAt
     }
+    
+    init (routine: RoutinesListCellViewModel?) {
+        self.id = routine?.id
+        self.title = routine?.title
+        self.description = routine?.description
+        self.isInProgress = routine?.isInProgress ?? false
+        self.startedAt = routine?.startedAt
+    }
 }
