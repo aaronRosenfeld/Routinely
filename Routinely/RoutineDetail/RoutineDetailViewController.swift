@@ -21,6 +21,12 @@ class RoutineDetailViewController: UIViewController {
         setupView()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+        navigationController?.navigationBar.tintColor = .systemBlue
+    }
+    
 }
 
 extension RoutineDetailViewController {
@@ -29,6 +35,9 @@ extension RoutineDetailViewController {
         title = routine?.title
         
         view.backgroundColor = .lightGray
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.barTintColor = routine?.isInProgress ?? false ? UIColor.systemRed : UIColor.systemGreen
         
     }
     
